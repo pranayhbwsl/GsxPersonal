@@ -1,0 +1,38 @@
+<?php
+$checkParamExist = strrpos(strtolower($block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true])), 'gsx');
+if ($checkParamExist === false) {
+    $checkParamExist = false;
+} else {
+    $checkParamExist = true;
+}
+if ($checkParamExist || $block->isLiveComponent()) {
+    ?>
+    <form name="gcForm" id="gcForm" method="post" action="<?= $block
+    ->escapeHtml($block->getBaseUrl()) ?>" style="text-align: center;margin: 100px;">
+        <?php
+        if ($block->getPathToImageButton() == "") {
+            ?>
+            <button title="<?= $block->escapeHtml(__("International Checkout")) ?>"
+                    class="<?= $block->escapeHtml($block
+                    ->getNamebuttonCssClassName()) ?> action primary checkout" type="submit"
+                    style="<?= $block->escapeHtml($block->getStyleExtend()) ?>">
+            <span>
+                <span>Continuar Comprando</span>
+            </span>
+            </button>
+
+            <?php
+        } else {
+            ?>
+            <button title="<?= $block->escapeHtml(__("International Checkout")) ?>" <?= $block
+            ->escapeHtml($block->getCssForButtonImage()) ?>
+                    type="submit" style="<?= $block->escapeHtml($block->getStyleExtend()) ?>">
+                <img src="<?= $block->escapeHtml($block->getPathToImageButton()) ?>">
+            </button>
+            <?php
+        }
+        ?>
+    </form>
+    <?php
+}
+?>

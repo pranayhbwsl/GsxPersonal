@@ -1,0 +1,152 @@
+<?php
+
+use Magento\Catalog\Model\Product;
+
+?>
+<form name="gcForm" id="gcForm" method="post" action="<?= $block->escapeHtml($block->GSX_URL) ?>">
+    <input type="hidden" name="MerchantID" value="<?= $block->escapeHtml($block->getMerchantID()) ?>"/>
+    <?php
+    $imgWidth = 75;
+    $imgHeight = 75;
+
+
+    $GSX_restriction_attribute = $block->getNameRestrictedItem();
+
+    //$session = Mage::getSingleton('checkout/session');
+    $session = $block->cart;
+    // $inputsGsxCart = "";
+    $i = 1;
+    $objManager = \Magento\Framework\App\ObjectManager::getInstance();
+    foreach ($session->getQuote()->getAllVisibleItems() as $item) {
+        $item_ID = $item->getProductId();
+        $_Product = $objManager->get(Product::Class)->load($item_ID);
+        $ProductPrice = $item->getPrice();
+        $ProductPrice = substr($ProductPrice, 0, strrpos($ProductPrice, ".") + 3);
+        $ProductWeight = $_Product->getWeight();
+        $ProductWeight = substr($ProductWeight, 0, strrpos($ProductWeight, ".") + 3);
+
+        if ($ProductWeight == "") { $ProductWeight = "0";
+        }
+        ?>
+        <input type="hidden" name="ProductSKU<?=$block->escapeHtml($i) ?>"
+         value="<?= $block->escapeHtml($_Product->getSku()) ?>">\n
+
+        <input type="hidden" name="ProductDesc<?= $block->escapeHtml($i) ?>" value="<?= $block->escapeHtml($block
+        ->buildItemDescription($item))?>">\n
+
+        <input type="hidden" name="ProductLink<?= $block->escapeHtml($i) ?>" value="<?= $block->escapeHtml($block
+        ->getProductUrl($item)) ?>">\n
+
+        <input type="hidden" name="ProductQty<?= $block->escapeHtml($i) ?>"
+         value="<?= $block->escapeHtml($item->getQty()) ?>">\n
+
+        <input type="hidden" name="ProductPrice<?= $block->escapeHtml($i) ?>"
+         value="<?= $block->escapeHtml($ProductPrice) ?>">\n
+
+        <input type="hidden" name="ProductSize<?= $block->escapeHtml($i) ?>"
+         value="<?= $block->escapeHtml($block->getSize($item)) ?>">\n
+
+        <input type="hidden" name="ProductColor<?= $block->escapeHtml($i) ?>" value="<?= $block->escapeHtml($block
+        ->getColor($item)) ?>">\n
+
+        <input type="hidden" name="ProductWeight<?= $block->escapeHtml($i) ?>"
+         value="<?= $block->escapeHtml($ProductWeight) ?>">\n
+        <?php
+        if ($item->getCountry() != "") {
+            ?>
+            <input type="hidden" name="ProductCountry<?= $block->escapeHtml($i) ?>" value="<?= $block->escapeHtml($item
+            ->getCountry()) ?>">\n
+            <?php
+        }
+        if ($item->getBrand($item) != "") {
+            ?>
+            <input type="hidden" name="ProductBrand<?= $block->escapeHtml($i) ?>" value="<?= $block->escapeHtml($block
+            ->getBrand($item)) ?>">\n
+            <?php
+        }
+
+        /*if ($GSX_restriction_attribute != "") {
+            $attributes = Mage::getResourceModel('eav/entity_attribute_collection')
+                ->setEntityTypeFilter($_Product->getResource()->getTypeId())
+                ->addFieldToFilter('attribute_code', $GSX_restriction_attribute)
+                ->load(false);
+
+            $attribute = $attributes->getFirstItem()->setEntity($_Product->getResource());
+            $manufac = $attribute->getSource()->getAllOptions(false);
+            foreach ($manufac as $man) {
+                $intshiping[$man['value']] = $man['label'];
+            }
+            if ($_Product->getData($GSX_restriction_attribute) == '1')
+                $inputsGsxCart .= "<input type=\"hidden\" name=\"Restricted$i\" value='1'>\n";
+        }*/
+
+        ?>
+        <input type="hidden" name="ProductImage<?= $block->escapeHtml($i) ?>" value="<?= $block->escapeHtml($block
+        ->getProductThumbnail($item)->resize($imgWidth)) ?>">\n
+        <?php
+        $i++;
+    }
+
+    // echo $inputsGsxCart;
+
+    $GSX_totals = $session->getQuote()->getData();
+    $coupon_code = $GSX_totals['coupon_code'];
+    $discount = $GSX_totals['subtotal'] - $GSX_totals['subtotal_with_discount'];
+    $perc = ($discount * 100) / $GSX_totals['subtotal'];
+    $perc = round($perc, 2);
+    ?>
+
+    <?php
+    if ($coupon_code != "") {
+        ?>
+        <input type="hidden" name="ODiscount" value="<?= $block->escapeHtml($perc) ?>">
+        <input type="hidden" name="ODiscCode" value="<?= $block->escapeHtml($coupon_code) ?>">
+        <input type="hidden" name="ODiscPerc" value="1">
+        <?php
+    }
+    ?>
+    <input type="hidden" name="LocalShippingEXP" value="<?= $block->escapeHtml($block->getLocalshippingEXP()) ?>" />
+    <input type="hidden" name="LocalShipping" value="<?= $block->escapeHtml($block->getLocalshipping()) ?>" />
+    <!-- echo $block->getLocalshippingEXP();
+    echo $block->getLocalshipping(); -->
+
+    <?php
+    $checkParamExist = strrpos(strtolower($block
+    ->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true])), 'gsx');
+    if ($checkParamExist === false) {
+        $checkParamExist = false;
+    } else {
+        $checkParamExist = true;
+    }
+
+    if ($checkParamExist || $block->isLiveComponent()) {
+        ?>
+        <?php
+        if ($block->getPathToImageButton() == "") {
+            ?>
+            <button title="<?= $block->escapeHtml(__('International Checkout')) ?>"
+                    class="<?= $block->escapeHtml($block->getNamebuttonCssClassName()) ?>" type="submit"
+                    style="<?= $block->escapeHtml($block->getStyleExtend()) ?>">
+                        <span>
+                            <span><?= $block->escapeHtml($block->buttonTextInternationalCustomer()) ?></span>
+                        </span>
+            </button>
+
+            <?php
+        } else {
+            ?>
+            <br>
+            <button
+                title="<?= $block->escapeHtml(__('International Checkout'))?>" <?= $block
+                ->escapeHtml($block->getCssForButtonImage()) ?>
+                type="submit" style="<?= $block->escapeHtml($block->getStyleExtend()) ?>">
+                <img src="<?= $block->escapeHtml($block->getPathToImageButton()) ?>">
+            </button>
+
+            <?php
+        }
+        ?>
+        <?php
+    }
+    ?>
+</form>

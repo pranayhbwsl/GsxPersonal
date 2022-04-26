@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2015 Amasty (http://www.amasty.com)
+ * @package Amasty_HelloWorld
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="gsx" translate="label" sortOrder="20">
+            <label>Gsx</label>
+        </tab>
+        <section id="gsx_globalshopex" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <label>Globalshopex</label>
+            <tab>gsx</tab>
+            <resource>Gsx_Globalshopex::gsx_globalshopex</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>General</label>
+                <field id="gsx_active" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Activate Plug-in</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        <![CDATA[
+                        <ul>
+                        <li>Yes: Add GlobalShopex Plug-in code to Website</li>
+                        <li>No: Remove GlobalShopex Plug-in code from Website</li>
+                        </ul>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="typeintegration" translate="label comment" type="select" sortOrder="20" showInDefault="0"
+                       showInWebsite="0" showInStore="0">
+                    <label>Activate Plug-in</label>
+                    <source_model>Gsx\Globalshopex\Model\Source\IframeCarttoCart</source_model>
+                    <comment>
+                        <![CDATA[
+                        <ul>
+                        <li>If you select Iframe.</li>
+                        <li>If you select Cart to Cart.</li>
+                        </ul>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsx_tracking_enable" translate="label comment" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Activate Tracking Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        <![CDATA[
+                        <ul>
+                        <li>Yes: Add GlobalShopex Tracking Page to Website</li>
+                        <li>No: Remove GlobalShopex Tracking Page from Website</li>
+                        </ul>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsx_is_live" translate="label comment" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable International Shipping Live/Review International Shipping:</label>
+                    <source_model>Gsx\Globalshopex\Model\Source\Servers</source_model>
+                    <comment>
+                        <![CDATA[
+                        <ul>
+                        <li>If you select Enable International Shipping The International checkout will be live on your site.</li>
+                        <li>If you select Review International Shipping you can add "?gsx" to the end of the link in your cart page and you will be able to test the international checkout proccess.</li>
+                        </ul>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsxmerchantid" translate="label" type="text" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Merchant ID</label>
+                    <validate>required-entry</validate>
+                    <comment>
+                        <![CDATA[
+                        <span>Please provide the 7 digits MerchatID created by Globalshopex</span>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsx_enablehttps" translate="label comment" type="select" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Https Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        <![CDATA[
+                        <ul>
+                        <li>Yes: Your site HTTPS in the cart page</li>
+                        <li>No: your site Don't have https(Redirect https to http)</li>
+                        </ul>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsx_cssclassbutton" translate="label" type="text" sortOrder="60" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>CSS Class Name for Button</label>
+                    <comment>
+                        <![CDATA[
+                        <span>You may edit the name Css Class of the interntational checkout button here</span>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsx_styletag" translate="label" type="text" sortOrder="70" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Content for Style tag</label>
+                    <comment>
+                        <![CDATA[
+                        <span>You may enter content for "style" tag to design the text of international checkout button if you prefer to use text instead of upload a button.</span>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsx_pathimage" translate="label" type="text" sortOrder="80" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Globalshopex Button Image</label>
+                    <comment>
+                        <![CDATA[
+                        <span>The international shipping button provided by Globalshopex is a default Interntational checkout Button.</span>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsx_local_shipping" translate="label" type="text" sortOrder="90" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Local Shipping</label>
+                    <validate>validate-number</validate>
+                    <comment>
+                        <![CDATA[
+                        <span>Enter the priority flat rate or standard priority shipping program for any shipping cost to arrive</span>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsx_local_shippingexp" translate="label" type="text" sortOrder="100" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Local Shipping Exp</label>
+                    <validate>validate-number</validate>
+                    <comment>
+                        <![CDATA[
+                        <span>Enter the priority flat rate or standard priority shipping program for any shipping cost to arrive</span>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsx_name_field_restricted" translate="label" type="text" sortOrder="110" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Name Attribute Restricted</label>
+                    <comment>
+                        <![CDATA[
+                        <span>Enter the name of field for restricted items</span>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="gsx_enableclearcart" translate="label comment" type="select" sortOrder="120"
+                       showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Clear Cart</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        <![CDATA[
+                        <ul>
+                        <li>Yes: Clear customer cart after the checkout in Globalshopex</li>
+                        <li>No: The cart remains after the checkout in Globalshopex</li>
+                        </ul>
+                        ]]>
+                    </comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,13 @@
+<?php
+if ($block->isEnabledComponent()) {
+    if ($block->getTypeIntegration() == "0") {
+        echo $block->getChildHtml('gsx_globalshopex.formcartocart');
+    } else {
+        echo $block->getChildHtml('gsx_globalshopex.buttoniframe');
+    }
+}
+?>
+
+
+
+

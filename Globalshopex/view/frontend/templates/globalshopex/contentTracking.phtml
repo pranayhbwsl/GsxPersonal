@@ -1,0 +1,30 @@
+<?php
+if ($block->isTrackingEnable()) {
+    ?>
+    <style>
+        .login-container,.page-title-wrapper,.form-create-account {
+            display: none;
+        }
+    </style>
+    <div class="col-main">
+        <table id="shopping-cart-table" class="data-table cart-table">
+            <tr>
+                <td>
+                    <iframe id="Gsframe" name="Gsframe" frameborder="0" scrolling="auto" height="800px" width="100%"
+                            allowtransparency="true" onload="hideProgress()">GlobalShopex International checkout Order
+                        Tracking
+                    </iframe>
+                    <form name="frmPP" id="frmPP" method="post"
+                          action="https://globalshopex.com/iframe/OrderTracking.aspx"
+                          target="Gsframe">
+                        <div runat="server" id="itemInfo">
+                            <input type="hidden" name="MerchantID" value="<?= $block->escapeHtml($block
+                            ->getMerchantID()); ?>"/>
+                    </form>
+                    <script>document.getElementById('frmPP').submit();</script>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <?php
+}
